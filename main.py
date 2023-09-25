@@ -76,10 +76,14 @@ def main():
       mostrarMenu()
       
     elif opc == '2':
-      print()
-      pass
+      sleep(0.2)
+      os.system('clear')
+      print("Informe os registros de chuva de meteoros")
+      
     elif opc == '3':
-      pass
+      sleep(0.2)
+      os.system('clear')
+      print("Apresente estatiscas: ") 
     elif opc == '4': 
       #A partir do momento que opc agora é igual a 4,
       #O Programa irá se encerrar automaticamente,
