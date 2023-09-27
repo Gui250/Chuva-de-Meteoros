@@ -1,14 +1,39 @@
-import math
-import os
-from time import sleep
+from math import cos
+from math import sin
+from math import radians
 
-#Variáveis globais, temporariamente?
-xSup, ySup = 0, 0 #Coordenadas do canto superior esquerdo da fazenda
-xInf, yInf = 0, 0 #Coordenadas do canto inferior direito da fazenda
-xSed, ySed = 0, 0 #Coordenadas da sede UPMCC
+#AAAAAAAAAAAAAAAAAAAAAAAAAAA
+#TO COM PROBLEMA NAS PORCENTAGENS
+#:)
 
+xFazSup, yFazSup = 0, 0 #Coordenadas do canto superior esquerdo da fazenda
+xFazInf, yFazInf = 0, 0 #Coordenadas do canto inferior direito da fazenda
+xSedSup, ySedSup = 0, 0 #Coordenadas da sede
+xSedInf, ySedInf = 0, 0 #Coordenadas da sede
+xUpm, yUpm = 0, 0 #Coordenadas da UPMCC
 
-def mostrarMenu():
+xMet, yMet = 0, 0 #variáveis para conversão de coordenadas dos meteoros
+quedasTotal = 0 #Total de quedas registradas
+quedasFaz = 0 #Total de quedas dentro da propriedade
+qNE = 0 #Total de quedas no quadrante NE
+qNO = 0 #Total de quedas no quadrante NO
+qSO = 0 #Total de quedas no quadrante SO
+qSE = 0 #Total de quedas no quadrante SE
+sedeAtingida = False #Variável booleana para saber quando sede foi atingida
+
+#Porcentagens calculadas dos registros
+porcFaz = 0.0 #Porcentagem de quedas na fazenda em relação ao total de quedas
+porcNE = 0.0 #Porcentagem de quedas nos quadrantes em relação ao total de quedas
+porcNO = 0.0
+porcSO = 0.0
+porcSE = 0.0
+
+perimetroDefinido = False #Bool para habilitação de próximas funções 
+sistemaUnificado = False #Bool para habilitação de próximas funções
+processado = False #Bool para habilitação de próximas funções
+
+# Construindo um menu
+while True:
   print("\n*****************") 
   print("Chuva de Meteoros")
   print("*****************")
@@ -16,98 +41,185 @@ def mostrarMenu():
   print('''
   Sistema para analíse de Meteoros
   Menu: 
-  [1] Definir a localização da fazenda e da sede
-  [2] Processar registros de chuvas de meteoros
-  [3] Apresentar estatísticas
-  [4] Sair
-  ''') #Função para printar menu
+  [1] Definir perímetro da propriedade e da edificação de interesse
+  [2] Unificar sistemas de coordenadas de referência
+  [3] Processar registros de chuva de meteoros
+  [4] Apresentar estatísticas
+  [5] Apresentar configuração atual de coordenadas
+  [6] Sair
+  ''')
 
-def converterParaCoord(dist, ang): #FALTA MEU PROCESSO DE OTIMIZAR (INCOMPLETO)
-  print("AAAAAAAAAAAAAAAAAAAAAAAA")
-  print("COSSENO DE", ang, ":", math.cos(ang))
-  print("SENO DE", ang, ":", math.sin(ang))
-  x = dist * math.cos(ang)
-  y = dist * math.sin(ang)
-  print("\n(x, y):", x, y)
-  print("Ok então essas são as refs sem considerar pos da sede")
-
-  #x e y são o TAMANHO do "quadrado" para marcar as coordenadas, mas não são as COORDENADAS em si
-  #então agora eu SOMO X e Y nas coordenadas da sede???? (isso!)
-  #então se a coordenada da sede for negativa, seja no seu ySed ou xSed por exemplo, a soma do negativo já vai se tornar subtração, então automaticamente dá tudo certinho
-  #dessa maneira:
-
-  print("\nCoordenadas da sede:", -2, 2)
-  print("\"Distância\" x da sede:", x)
-  print("\"Distância\" y da sede:", y)
-
-  x = x + -2 #se xSed for negativo, vai subtrair
-  y = y + 2 #se xSed for negativo, vai subtrair
-  
-  print("\nPor favor esteja certo")
-  print("x real como uma coordenada:", x)
-  print("y real como uma coordenada:", y)
-  
-
-# Construindo um menu 
-def main():
-  mostrarMenu()
-  
   opc = ''
-  while opc != '4': #Enquanto o usuário já não tiver saído,
-    print("Opção:", end=" ") #Pergunto a opção
-    opc = input()
+  print("Opção:", end=" ") #Pergunto a opção
+  opc = input()
+  
+  if opc == '1':
+    print("\nInforme as coordenadas dos dois cantos opostos do perímetro da sua fazenda.")
+
+    print("\nCanto superior esquerdo:")
+    print("Coordenada x:", end=" ")
+    xFazSup = float(input())
+    print("Coordenada y:", end=" ")
+    yFazSup = float(input())
+    print("\nCanto inferior direito:")
+    print("Coordenada x:", end=" ")
+    xFazInf = float(input())
+    print("Coordenada y:", end=" ")
+    yFazInf = float(input())
+
+    print("\nInforme as coordenadas dos dois cantos opostos do perímetro da  edificação de interesse.")
+
+    print("\nCanto superior esquerdo:")
+    print("Coordenada x:", end=" ")
+    xSedSup = float(input())
+    print("Coordenada y:", end=" ")
+    ySedSup = float(input())
+    print("\nCanto inferior direito:")
+    print("Coordenada x:", end=" ")
+    xSedInf = float(input())
+    print("Coordenada y:", end=" ")
+    ySedInf = float(input())
+
+    perimetroDefinido = True
+
+  elif opc == '2':
+    print("\nInforme as coordenadas da localização da sede UPMCC")
+
+    print("\nLocalização:")
+    print("Coordenada x:", end=" ")
+    xUpm = float(input())
+    print("Coordenada y:", end=" ")
+    yUpm = float(input())
+
+    sistemaUnificado = True
     
-    if opc == '1':
-      sleep(0.2)
-      os.system('clear')
-      print("Informe as coordenadas dos dois cantos opostos da área da sua fazenda.")
-      while True: #Validando entrada do usuário
-        try:
-          print("\nDigite no seguinte formato: x, y")
-          print("Canto superior esquerdo:", end=" ")
-          xSup, ySup = map(float, input().split(", "))
-          print("Canto inferior direito:", end=" ")
-          xInf, yInf = map(float, input().split(", "))
-          break
-        except:
-          print("Formato inválido, tente novamente.")
+  elif opc == '3':
+    #Primeiramente, verificando se a função já pode ser chamada.
+    if perimetroDefinido == False:
+      print("\nImpossível processar qualquer registro de queda no momento:")
+      print("localização da propriedade ainda não informada.")
 
-      print("\nInforme as coordenadas da localização da sede UPMCC.")
+    elif sistemaUnificado == False:
+      print("\nImpossível processar qualquer registro de queda no momento:")
+      print("não foi feita a unificação dos sistemas referenciais usados nos cálculos.")
+      
+    else: #Se ela pode ser chamada, começo ela abaixo
+      print("\nInforme os registros de chuva de meteoros")
+      print("Digite -1 para finalizar os registros.")
+
+      #Reiniciando registros
+      quedasTotal = 0 #Total de quedas registradas
+      quedasFaz = 0 #Total de quedas dentro da propriedade
+      qNE = 0 #Total de quedas no quadrante NE
+      qNO = 0 #Total de quedas no quadrante NO
+      qSO = 0 #Total de quedas no quadrante SO
+      qSE = 0 #Total de quedas no quadrante SE
+      sedeAtingida = False
+      
+      #Calculando divisor dos 4 quadrantes do perímetro da fazenda
+      xMeio = xFazSup+((xFazInf - xFazSup)/2)
+      yMeio = yFazInf+((yFazSup - yFazInf)/2)
+    
+      dist = 0
+      ang = 0
+      cont = 0
       while True:
-        try:
-          print("\nDigite no seguinte formato: x, y")
-          print("Localização:", end=" ")
-          xSed, ySed = map(float, input().split(", "))
+        cont+=1
+        print("Registro #"+str(cont))
+        print("-> Distância:", end=" ")
+        dist = float(input())
+        if dist == -1:
           break
-        except:
-          print("Formato inválido, tente novamente.")
+        print("-> Ângulo:", end=" ")
+        ang = float(input())
+        if ang == -1:
+          break
 
-      print("\nVoltando ao menu...")
-      sleep(1.5)
-      os.system('clear')
-      mostrarMenu()
+        #Cálculos a seguir
+        #Convertendo coordenadas polares do meteoro para coordenadas cartesianas
+        xMet = round((dist * cos(radians(ang))) + xUpm)
+        yMet = round((dist * sin(radians(ang))) + yUpm)
+        
+
+        #Verificando se este meteoro atingiu dentro do perímetro da fazenda
+        if (xMet>=xFazSup) and (yMet<=yFazSup) and (xMet<=xFazInf) and (yMet>=yFazInf):
+          quedasFaz += 1
+          
+          #Se ele caiu dentro do perímetro da fazenda, posso descobrir em qual quadrante está
+          #Verificando em qual quadrante este meteoro atingiu
+          if (xMet>=xMeio) and (yMet>=yMeio):
+            qNE += 1
+          elif (xMet<=xMeio) and (yMet>=yMeio):
+            qNO += 1
+          elif (xMet<=xMeio) and (yMet<=yMeio):
+            qSO += 1
+          elif (xMet>=xMeio) and (yMet<=yMeio):
+            qSE += 1
+
+        #Verificando se este meteoro atingiu dentro do perímetro da sede
+        if (xMet>=xSedSup) and (yMet<=ySedSup) and (xMet<=xSedInf) and (yMet>=ySedInf):
+          sedeAtingida = True
+
+        print("\nPRINTANDO TUDO FERRESE")
+        print("xMeio, yMeio:", xMeio, yMeio)
+        print("xMet, yMet:", xMet, yMet)
+        print("quedasTotal:",quedasTotal) 
+        print("quedasFaz:",quedasFaz) 
+        print("qNE:",qNE) 
+        print("qNO:",qNO)
+        print("qSO:",qSO) 
+        print("qSE:",qSE) 
+        print("sedeAtingida:",sedeAtingida)
+        print()
+
+      quedasTotal = cont-1 #Menos 1 porque não deve contabilizar o momento da saída dos registros
+      print("Fim da coleta de registros:", quedasTotal, "queda(s) informada(s).")
+      processado = True #Será possível acessar as estastísticas agora
       
-    elif opc == '2':
-      sleep(0.2)
-      os.system('clear')
-      print("Informe os registros de chuva de meteoros")
-
-      print("\nTESTANDO CONVERSAO DE COORDENADAS")
-      converterParaCoord(8, 45)
+  elif opc == '4':
+    #Primeiramente, verificando se a função já pode ser chamada.
+    if processado == False:
+      print("\nImpossível apresentar quaisquer estatísticas no momento:")
+      print("Nenhuma queda de meteoros foi registrada.")
+    else: #Se ela pode ser chamada, começo ela abaixo
       
-    elif opc == '3':
-      sleep(0.2)
-      os.system('clear')
-      print("Apresente estatiscas: ") 
-    elif opc == '4': 
-      #A partir do momento que opc agora é igual a 4,
-      #O Programa irá se encerrar automaticamente,
-      #"break" não é necessário.
-      print("Saindo...")
-    else:
-      print("Opção inválida, tente novamente.")
+      #Calculando porcentagens
+      if quedasTotal>0:
+        porcFaz = (quedasFaz*100)/quedasTotal
+      if quedasFaz>0:
+        porcNE = (qNE*100)/quedasFaz
+        porcNO = (qNO*100)/quedasFaz
+        porcSO = (qSO*100)/quedasFaz
+        porcSE = (qSE*100)/quedasFaz
+      
+      print("\nTotal de quedas registradas:", quedasTotal, "(100%)")
+      print("Quedas dentro da propriedade:", quedasFaz, '(', porcFaz, ')') #AJEITAR
+      print("-> Quadrante NE:", qNE, '(', porcNE, ')') #AJEITAR
+      print("-> Quadrante NO:", qNO, '(', porcNO, ')') #AJEITAR
+      print("-> Quadrante SO:", qSO, '(', porcSO, ')') #AJEITAR
+      print("-> Quadrante SE:", qSE, '(', porcSE, ')') #AJEITAR
+      
+      if sedeAtingida == True:
+        print("A edificação principal foi atingida? SIM")
+      else:
+        print("A edificação principal foi atingida? NÃO")
 
+      print("\nAperte enter para continuar...")
+      input()
 
-main()
+  elif opc == '5': #Mostrar coordenadas configuradas atuais pro usuário
+    print("\nCoordenadas do perímetro da propriedade:")
+    print("x superior:", xFazSup, "y superior:", yFazSup)
+    print("x inferior:", xFazInf, "y inferior:", yFazInf)
+    print("\nCoordenadas do perímetro da edificação de interesse:")
+    print("x superior:", xSedSup, "y superior:", ySedSup)
+    print("x inferior:", xSedInf, "y inferior:", ySedInf)
+    print("\nCoordenadas da localização do sistema de referência:")
+    print("x:", xUpm, "y:", yUpm)
 
+  elif opc == '6': 
+    print("Saindo...")
+    break
 
+  else:
+    print("\nA opção escolhida é inválida, tente novamente.")
