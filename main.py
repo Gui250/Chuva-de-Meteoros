@@ -9,8 +9,8 @@ TIA: 42307831
 Guilherme Soares Moreno
 TIA: 42333288
 
-Gabriel
-TIA:
+Gabriel de Matos de Campos Mello
+TIA: 42305586
 '''
 
 xFazSup, yFazSup = 0, 0 #Coordenadas do canto superior esquerdo da fazenda
