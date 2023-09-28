@@ -2,6 +2,17 @@ from math import cos
 from math import sin
 from math import radians
 
+'''
+Bruna Gonçalves Corte David
+TIA: 42307831
+
+Guilherme
+TIA:
+
+Gabriel
+TIA:
+'''
+
 xFazSup, yFazSup = 0, 0 #Coordenadas do canto superior esquerdo da fazenda
 xFazInf, yFazInf = 0, 0 #Coordenadas do canto inferior direito da fazenda
 xSedSup, ySedSup = 0, 0 #Coordenadas do canto superior esquerdo da sede
