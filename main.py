@@ -2,24 +2,20 @@ from math import cos
 from math import sin
 from math import radians
 
-#AAAAAAAAAAAAAAAAAAAAAAAAAAA
-#TO COM PROBLEMA NAS PORCENTAGENS
-#:)
-
 xFazSup, yFazSup = 0, 0 #Coordenadas do canto superior esquerdo da fazenda
 xFazInf, yFazInf = 0, 0 #Coordenadas do canto inferior direito da fazenda
-xSedSup, ySedSup = 0, 0 #Coordenadas da sede
-xSedInf, ySedInf = 0, 0 #Coordenadas da sede
+xSedSup, ySedSup = 0, 0 #Coordenadas do canto superior esquerdo da sede
+xSedInf, ySedInf = 0, 0 #Coordenadas do canto inferior direito da sede
 xUpm, yUpm = 0, 0 #Coordenadas da UPMCC
 
-xMet, yMet = 0, 0 #variáveis para conversão de coordenadas dos meteoros
+xMet, yMet = 0, 0 #variáveis para guardar e calcular coordenadas dos meteoros
 quedasTotal = 0 #Total de quedas registradas
 quedasFaz = 0 #Total de quedas dentro da propriedade
 qNE = 0 #Total de quedas no quadrante NE
 qNO = 0 #Total de quedas no quadrante NO
 qSO = 0 #Total de quedas no quadrante SO
 qSE = 0 #Total de quedas no quadrante SE
-sedeAtingida = False #Variável booleana para saber quando sede foi atingida
+sedeAtingida = False #Variável booleana para saber se sede foi atingida
 
 #Porcentagens calculadas dos registros
 porcFaz = 0.0 #Porcentagem de quedas na fazenda em relação ao total de quedas
@@ -116,7 +112,7 @@ while True:
       qSE = 0 #Total de quedas no quadrante SE
       sedeAtingida = False
       
-      #Calculando divisor dos 4 quadrantes do perímetro da fazenda
+      #Calculando posição do ponto divisor dos 4 quadrantes
       xMeio = xFazSup+((xFazInf - xFazSup)/2)
       yMeio = yFazInf+((yFazSup - yFazInf)/2)
     
@@ -139,7 +135,6 @@ while True:
         #Convertendo coordenadas polares do meteoro para coordenadas cartesianas
         xMet = round((dist * cos(radians(ang))) + xUpm)
         yMet = round((dist * sin(radians(ang))) + yUpm)
-        
 
         #Verificando se este meteoro atingiu dentro do perímetro da fazenda
         if (xMet>=xFazSup) and (yMet<=yFazSup) and (xMet<=xFazInf) and (yMet>=yFazInf):
@@ -159,18 +154,6 @@ while True:
         #Verificando se este meteoro atingiu dentro do perímetro da sede
         if (xMet>=xSedSup) and (yMet<=ySedSup) and (xMet<=xSedInf) and (yMet>=ySedInf):
           sedeAtingida = True
-
-        print("\nPRINTANDO TUDO FERRESE")
-        print("xMeio, yMeio:", xMeio, yMeio)
-        print("xMet, yMet:", xMet, yMet)
-        print("quedasTotal:",quedasTotal) 
-        print("quedasFaz:",quedasFaz) 
-        print("qNE:",qNE) 
-        print("qNO:",qNO)
-        print("qSO:",qSO) 
-        print("qSE:",qSE) 
-        print("sedeAtingida:",sedeAtingida)
-        print()
 
       quedasTotal = cont-1 #Menos 1 porque não deve contabilizar o momento da saída dos registros
       print("Fim da coleta de registros:", quedasTotal, "queda(s) informada(s).")
@@ -193,11 +176,11 @@ while True:
         porcSE = (qSE*100)/quedasFaz
       
       print("\nTotal de quedas registradas:", quedasTotal, "(100%)")
-      print("Quedas dentro da propriedade:", quedasFaz, '(', porcFaz, ')') #AJEITAR
-      print("-> Quadrante NE:", qNE, '(', porcNE, ')') #AJEITAR
-      print("-> Quadrante NO:", qNO, '(', porcNO, ')') #AJEITAR
-      print("-> Quadrante SO:", qSO, '(', porcSO, ')') #AJEITAR
-      print("-> Quadrante SE:", qSE, '(', porcSE, ')') #AJEITAR
+      print("Quedas dentro da propriedade:", quedasFaz, "({:.2f})%".format(porcFaz)) #AJEITAR
+      print("-> Quadrante NE:", qNE, "({:.2f})%".format(porcNE)) #AJEITAR
+      print("-> Quadrante NO:", qNO, "({:.2f})%".format(porcNO)) #AJEITAR
+      print("-> Quadrante SO:", qSO, "({:.2f})%".format(porcSO)) #AJEITAR
+      print("-> Quadrante SE:", qSE, "({:.2f})%".format(porcSE)) #AJEITAR
       
       if sedeAtingida == True:
         print("A edificação principal foi atingida? SIM")
