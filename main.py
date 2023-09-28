@@ -6,8 +6,8 @@ from math import radians
 Bruna Gonçalves Corte David
 TIA: 42307831
 
-Guilherme
-TIA:
+Guilherme Soares Moreno
+TIA: 42333288
 
 Gabriel
 TIA:
